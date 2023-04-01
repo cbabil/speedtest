@@ -95,8 +95,16 @@ def write_data(data, destination='stdout'):
     show_default=True,
     help='Speedtest schema',
 )
-@click.option('--out', default='stdout', show_default=True, help='Output for the data')
-@click.option('--loglevel', default='INFO', show_default=True, help='Log Level')
+@click.option(
+    '--out',
+    default='stdout',
+    show_default=True,
+    help='Output for the data')
+@click.option(
+    '--loglevel',
+    default='INFO',
+    show_default=True,
+    help='Log Level')
 def main(template, schema, out, loglevel):
     """
     Speedtest CLI Data Logger
@@ -143,15 +151,21 @@ def main(template, schema, out, loglevel):
 
     # Verifying the integrity of the
     # json output against the schema
-    valid_json_data, is_json_valid = validate_json(json.loads(test.out), schema)
-    if is_json_valid:
-        logger.info('JSON data validation successful...')
-        if validtpl:
-            data = templates.main(valid_json_data, tpl_path)
-            write_data(data, destination)
-            logger.info('Done writting data to {}'.format(destination))
+    if ((test.out).decode("utf-8")):
+        logger.info(test.msg)
+        valid_json_data, is_json_valid = validate_json(json.loads(test.out), schema)
+        if is_json_valid:
+            logger.info('JSON data validation successful...')
+            if validtpl:
+                data = templates.main(valid_json_data, tpl_path)
+                write_data(data, destination)
+                logger.info('Done writting data to {}'.format(destination))
+        else:
+            logger.info('JSON data validation failed. Exiting...')
+            exit(1)
     else:
-        logger.info('JSON data validation failed. Exiting...')
+        logger.info(test.msg)
+        logger.info((test.err).decode("utf-8"))
         exit(1)
 
 
