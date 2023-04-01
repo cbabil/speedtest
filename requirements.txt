@@ -1,0 +1,9 @@
+black
+click
+codetiming
+Jinja2
+jsonpath_ng
+jsonschema
+pytest
+pytest-cov
+types-python-dateutil

@@ -1,0 +1,224 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Speedtest JSON schema",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "ping": {
+      "type": "object",
+      "properties": {
+        "jitter": {
+          "type": "number"
+        },
+        "latency": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "jitter",
+        "latency"
+      ]
+    },
+    "download": {
+      "type": "object",
+      "properties": {
+        "bandwidth": {
+          "type": "number"
+        },
+        "bytes": {
+          "type": "number"
+        },
+        "elapsed": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "bandwidth",
+        "bytes",
+        "elapsed"
+      ]
+    },
+    "upload": {
+      "type": "object",
+      "properties": {
+        "bandwidth": {
+          "type": "number"
+        },
+        "bytes": {
+          "type": "number"
+        },
+        "elapsed": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "bandwidth",
+        "bytes",
+        "elapsed"
+      ]
+    },
+    "serverSelection": {
+      "type": "object",
+      "properties": {
+        "selectedServerId": {
+          "type": "number"
+        },
+        "selectedLatency": {
+          "type": "number"
+        },
+        "servers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "latency": {
+                "type": "number"
+              },
+              "server": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "host": {
+                    "type": "string"
+                  },
+                  "port": {
+                    "type": "number"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "country": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "host",
+                  "port",
+                  "name",
+                  "location",
+                  "country"
+                ]
+              }
+            },
+            "required": [
+              "latency",
+              "server"
+            ]
+          }
+        }
+      },
+      "required": [
+        "selectedServerId",
+        "selectedLatency",
+        "servers"
+      ]
+    },
+    "isp": {
+      "type": "string"
+    },
+    "interface": {
+      "type": "object",
+      "properties": {
+        "internalIp": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "macAddr": {
+          "type": "string"
+        },
+        "isVpn": {
+          "type": "boolean"
+        },
+        "externalIp": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "internalIp",
+        "name",
+        "macAddr",
+        "isVpn",
+        "externalIp"
+      ]
+    },
+    "server": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "host": {
+          "type": "string"
+        },
+        "port": {
+          "type": "number"
+        },
+        "name": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "ip": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "host",
+        "port",
+        "name",
+        "location",
+        "country",
+        "ip"
+      ]
+    },
+    "result": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "persisted": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "url",
+        "persisted"
+      ]
+    }
+  },
+  "required": [
+    "type",
+    "timestamp",
+    "ping",
+    "download",
+    "upload",
+    "serverSelection",
+    "isp",
+    "interface",
+    "server",
+    "result"
+  ]
+}
