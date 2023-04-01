@@ -95,16 +95,8 @@ def write_data(data, destination='stdout'):
     show_default=True,
     help='Speedtest schema',
 )
-@click.option(
-    '--out',
-    default='stdout',
-    show_default=True,
-    help='Output for the data')
-@click.option(
-    '--loglevel',
-    default='INFO',
-    show_default=True,
-    help='Log Level')
+@click.option('--out', default='stdout', show_default=True, help='Output for the data')
+@click.option('--loglevel', default='INFO', show_default=True, help='Log Level')
 def main(template, schema, out, loglevel):
     """
     Speedtest CLI Data Logger
@@ -151,7 +143,7 @@ def main(template, schema, out, loglevel):
 
     # Verifying the integrity of the
     # json output against the schema
-    if ((test.out).decode("utf-8")):
+    if (test.out).decode('utf-8'):
         logger.info(test.msg)
         valid_json_data, is_json_valid = validate_json(json.loads(test.out), schema)
         if is_json_valid:
@@ -165,7 +157,7 @@ def main(template, schema, out, loglevel):
             exit(1)
     else:
         logger.info(test.msg)
-        logger.info((test.err).decode("utf-8"))
+        logger.info((test.err).decode('utf-8'))
         exit(1)
 
 
