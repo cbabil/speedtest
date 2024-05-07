@@ -14,7 +14,7 @@ setup(
         'jsonpath-ng==1.5.3',
         'pytest==6.2.5',
         'pytest-cov==3.0.0',
-        'Jinja2==3.1.3',
+        'Jinja2==3.1.4',
         'types-python-dateutil',
     ],
     classifiers=[
