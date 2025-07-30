@@ -1,58 +1,34 @@
-# Speedtest Logger
 
-## Description
+# speedtest-logger
 
-This Python script runs a speedtest using the official `speedtest` CLI tool, validates the JSON output against a schema, and then formats the data using a template. The output can be directed to either a file or to standard output.
+![GitHub last commit](https://img.shields.io/github/last-commit/cbabil/speedtest)
+![GitHub issues](https://img.shields.io/github/issues/cbabil/speedtest)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/cbabil/speedtest)
+![GitHub](https://img.shields.io/github/license/cbabil/speedtest)
 
-## Installation
+`speedtest-logger` is a powerful and easy-to-use Python script that allows you to run a speedtest, validate the results, and format the data to your liking.
 
-1.  Clone this repository:
-    ```bash
-    git clone https://github.com/your-username/speedtest-logger.git
-    ```
-2.  Create a virtual environment:
-    ```bash
-    python -m venv venv
-    ```
-3.  Activate the virtual environment:
-    *   **Windows:**
-        ```bash
-        venv\\Scripts\\activate
-        ```
-    *   **macOS and Linux:**
-        ```bash
-        source venv/bin/activate
-        ```
-4.  Install the project in editable mode:
-    ```bash
-    pip install -e .
-    ```
-5.  Install the `speedtest` CLI tool. You can find instructions on the official Speedtest website: [https://www.speedtest.net/apps/cli](https://www.speedtest.net/apps/cli)
+## 🚀 Features
 
-## Usage
+*   **Run speedtests** using the official `speedtest` CLI tool.
+*   **Validate JSON output** against a schema.
+*   **Format data** using customizable templates.
+*   **Save output** to a file or print to the console.
+*   **Extensible** and easy to integrate into your own projects.
 
-```bash
-speedtest-logger --help
-```
+## 📖 Wiki
 
-### Options
+For detailed information on how to install, use, and contribute to `speedtest-logger`, please check out our [wiki](https://github.com/cbabil/speedtest/wiki).
 
-*   `--template`: The template to use for formatting the output. Defaults to `json`.
-*   `--schema`: The JSON schema to use for validating the speedtest output. Defaults to `speedtest/schemas/schemaV1.json`.
-*   `--out`: The destination for the output. Defaults to `stdout`.
-*   `--loglevel`: The logging level. Defaults to `INFO`.
+## 🤝 Contributing
 
-### Examples
+We welcome contributions from the community! Whether you want to report a bug, request a new feature, or submit a pull request, we'd love to hear from you.
 
-*   Run a speedtest and print the JSON output to the console:
-    ```bash
-    speedtest-logger
-    ```
-*   Run a speedtest and save the output to a file named `speedtest.log`:
-    ```bash
-    speedtest-logger --out speedtest.log
-    ```
-*   Run a speedtest and format the output using the `influx` template:
-    ```bash
-    speedtest-logger --template influx
-    ```
+*   **Bug Reports:** If you find a bug, please open a [bug report](https://github.com/cbabil/speedtest/issues/new?assignees=&labels=bug&template=bug_report.md&title=).
+*   **Feature Requests:** If you have an idea for a new feature, please open a [feature request](https://github.com/cbabil/speedtest/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=).
+*   **Pull Requests:** If you want to contribute code, please open a [pull request](https://github.com/cbabil/speedtest/pulls).
+*   **Discussions:** If you have any other questions or ideas, please open a [discussion](https://github.com/cbabil/speedtest/discussions).
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
