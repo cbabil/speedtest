@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import json
 import logging
 import os
 
@@ -62,28 +61,29 @@ def main(data: dict, tpl_path: str):
         tpl_path (str): The path to the Jinja2 template file.
 
     Returns:
-        str: The rendered template as a string.
+        str: The rendered template as a string, or None if there's an error.
     """
-    logging.basicConfig(level=logging.INFO)
-    logger = logging.getLogger(__name__)
-
     logger.info('Checking data...')
     if not isinstance(data, dict):
-        logger.info('Data format is incorrect. Expected a dictionary.')
+        logger.error('Data format is incorrect. Expected a dictionary.')
         return None
 
     if not data:
-        logger.info('No data provided...')
+        logger.error('No data provided...')
         return None
 
     logger.info('Checking template...')
     if not is_template_valid(tpl_path):
-        logger.info('Template does not exist...')
+        logger.error('Template does not exist: %s', tpl_path)
         return None
-    print(json.dumps(data, indent=4))
-    rendered_template = render_template(tpl_path, data)
 
-    return rendered_template
+    try:
+        rendered_template = render_template(tpl_path, data)
+        logger.info('Template rendered successfully')
+        return rendered_template
+    except Exception as e:
+        logger.error('Error rendering template: %s', e)
+        return None
 
 
 if __name__ == '__main__':

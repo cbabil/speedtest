@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import logging
 
+from typing import Any, Dict, Tuple
+
 from jsonschema import Draft7Validator
 from jsonschema.exceptions import SchemaError, UndefinedTypeCheck, UnknownType
 
@@ -8,7 +10,7 @@ from jsonschema.exceptions import SchemaError, UndefinedTypeCheck, UnknownType
 logger = logging.getLogger(__name__)
 
 
-def validate_json(json_data, schema):
+def validate_json(json_data: Dict[str, Any], schema: Dict[str, Any]) -> Tuple[Any, bool]:
     """Validate JSON data against a JSON Schema.
 
     Args:

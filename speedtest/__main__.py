@@ -5,6 +5,7 @@ import shutil
 import subprocess
 
 from collections import namedtuple
+from typing import Optional
 
 import click
 
@@ -51,14 +52,14 @@ def run_speedtest():
     return Result(msg, err, out)
 
 
-def locate(cmd):
+def locate(cmd: str) -> Optional[str]:
     """Returns the path for a given binary
 
     Args:
         cmd (str): the binary
 
     Returns:
-        path (str): path of given binary if found
+        path (str): path of given binary if found, None otherwise
     """
     path = shutil.which(cmd, path=None)
     if path:
@@ -66,7 +67,7 @@ def locate(cmd):
     return None
 
 
-def write_data(data, destination='stdout'):
+def write_data(data: str, destination: str = 'stdout') -> None:
     """
     Print data to a specified destination or to standard output if no destination is provided.
 
@@ -119,10 +120,40 @@ def main(template, schema, out, loglevel):
     # Check to ensure that the connector is valid
     if template:
         logger.info('using template: %s', template)
-        tpl_path = './speedtest/templates/' + template + '.tpl'
-        validtpl = templates.is_template_valid(tpl_path)
+        # Try multiple possible template paths
+        import os
+
+        import pkg_resources
+
+        possible_paths = [
+            f'./speedtest/templates/{template}.tpl',
+            f'speedtest/templates/{template}.tpl',
+            os.path.join(os.path.dirname(__file__), 'templates', f'{template}.tpl'),
+        ]
+
+        # Also try using pkg_resources for installed package
+        try:
+            pkg_template_path = pkg_resources.resource_filename('speedtest', f'templates/{template}.tpl')
+            possible_paths.append(pkg_template_path)
+        except ImportError:
+            pass
+
+        tpl_path = None
+        validtpl = False
+
+        for path in possible_paths:
+            if templates.is_template_valid(path):
+                tpl_path = path
+                validtpl = True
+                logger.info('found template at: %s', path)
+                break
+
+        if not validtpl:
+            logger.error('Template "%s" not found in any of the expected locations: %s', template, possible_paths)
+            exit(1)
     else:
-        logger.info('missing template....')
+        logger.error('Missing template....')
+        exit(1)
 
     # Check to ensure that the schema file is found
     schema = get_schema(schema)
