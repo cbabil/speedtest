@@ -1,4 +1,4 @@
-# Speedtest CLI Data Logger
+# Speedtest Logger
 
 ## Description
 
@@ -8,7 +8,7 @@ This Python script runs a speedtest using the official `speedtest` CLI tool, val
 
 1.  Clone this repository:
     ```bash
-    git clone https://github.com/your-username/speedtest-cli-data-logger.git
+    git clone https://github.com/your-username/speedtest-logger.git
     ```
 2.  Create a virtual environment:
     ```bash
@@ -23,16 +23,16 @@ This Python script runs a speedtest using the official `speedtest` CLI tool, val
         ```bash
         source venv/bin/activate
         ```
-4.  Install the required Python packages:
+4.  Install the project in editable mode:
     ```bash
-    pip install -r requirements.txt
+    pip install -e .
     ```
 5.  Install the `speedtest` CLI tool. You can find instructions on the official Speedtest website: [https://www.speedtest.net/apps/cli](https://www.speedtest.net/apps/cli)
 
 ## Usage
 
 ```bash
-python -m speedtest --help
+speedtest-logger --help
 ```
 
 ### Options
@@ -46,13 +46,13 @@ python -m speedtest --help
 
 *   Run a speedtest and print the JSON output to the console:
     ```bash
-    python -m speedtest
+    speedtest-logger
     ```
 *   Run a speedtest and save the output to a file named `speedtest.log`:
     ```bash
-    python -m speedtest --out speedtest.log
+    speedtest-logger --out speedtest.log
     ```
 *   Run a speedtest and format the output using the `influx` template:
     ```bash
-    python -m speedtest --template influx
+    speedtest-logger --template influx
     ```
