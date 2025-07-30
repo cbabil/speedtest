@@ -85,6 +85,52 @@ def write_data(data, destination='stdout'):
             f.write(data)
 
 
+def get_template_path(template_name):
+    """Get the path to a template file."""
+    return f'./speedtest/templates/{template_name}.tpl'
+
+
+def process_speedtest_data(template, schema_path, output):
+    """Run speedtest, validate data, and write to output."""
+    setup_logging('INFO')
+
+    if not locate('speedtest'):
+        logger.error('Unable to find speedtest. Is it installed?')
+        raise FileNotFoundError('speedtest binary not found.')
+
+    logger.info('Output is set to: %s', output)
+
+    tpl_path = get_template_path(template)
+    if not templates.is_template_valid(tpl_path):
+        logger.error('Invalid template: %s', tpl_path)
+        raise ValueError('Invalid template.')
+
+    schema = get_schema(schema_path)
+    if not schema or not validate_schema(schema):
+        logger.error('Invalid schema: %s', schema_path)
+        raise ValueError('Invalid schema.')
+
+    logger.info('Schema is valid...')
+
+    test_result = run_speedtest()
+
+    if not test_result.out:
+        logger.error('Speedtest failed: %s', test_result.err.decode('utf-8'))
+        raise RuntimeError('Speedtest execution failed.')
+
+    json_data = json.loads(test_result.out)
+    is_valid, _ = validate_json(json_data, schema)
+
+    if not is_valid:
+        logger.error('JSON data validation failed.')
+        raise ValueError('JSON data validation failed.')
+
+    logger.info('JSON data validation successful...')
+    data_to_write = templates.main(json_data, tpl_path)
+    write_data(data_to_write, output)
+    logger.info('Done writing data to %s', output)
+
+
 @click.command()
 @click.option(
     '--template', default='json', show_default=True, help='Template to be used'
@@ -101,63 +147,10 @@ def main(template, schema, out, loglevel):
     """
     Speedtest CLI Data Logger
     """
-
-    setup_logging(loglevel)
-
-    # Check to ensure that speedtest binary is installed
-    speedtestPath = locate('speedtest')
-    if speedtestPath is None:
-        logger.error('unable to find speedtest. Is it intalled?')
-        exit(1)
-    else:
-        logger.info('found speedtest: %s', speedtestPath)
-
-    if out:
-        logger.info('output is set to: %s', out)
-        destination = out
-
-    # Check to ensure that the connector is valid
-    if template:
-        logger.info('using template: %s', template)
-        tpl_path = './speedtest/templates/' + template + '.tpl'
-        validtpl = templates.is_template_valid(tpl_path)
-    else:
-        logger.info('missing template....')
-
-    # Check to ensure that the schema file is found
-    schema = get_schema(schema)
-    if schema is None:
-        logger.info('Exiting...')
-        exit(1)
-    else:
-        # validate schema
-        valide_schema = validate_schema(schema)
-        if valide_schema is False:
-            logger.info('Invalid schema. Exiting....')
-            exit(1)
-        else:
-            logger.info('Schema is valid...')
-
-    # running speedtest
-    test = run_speedtest()
-
-    # Verifying the integrity of the
-    # json output against the schema
-    if (test.out).decode('utf-8'):
-        logger.info(test.msg)
-        valid_json_data, is_json_valid = validate_json(json.loads(test.out), schema)
-        if is_json_valid:
-            logger.info('JSON data validation successful...')
-            if validtpl:
-                data = templates.main(valid_json_data, tpl_path)
-                write_data(data, destination)
-                logger.info('Done writting data to {}'.format(destination))
-        else:
-            logger.info('JSON data validation failed. Exiting...')
-            exit(1)
-    else:
-        logger.info(test.msg)
-        logger.info((test.err).decode('utf-8'))
+    try:
+        process_speedtest_data(template, schema, out)
+    except (FileNotFoundError, ValueError, RuntimeError) as e:
+        logger.error(e)
         exit(1)
 
 
