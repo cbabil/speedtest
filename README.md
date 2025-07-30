@@ -1,7 +1,45 @@
-# speedtest
+# Speedtest CLI Data Logger
 
-### Description
+## Description
 
-This python script allows you to run speedtest
+This Python script runs a speedtest using the official `speedtest` CLI tool, validates the JSON output against a schema, and then formats the data using a template. The output can be directed to either a file or to standard output.
 
-### Usage
+## Installation
+
+1.  Clone this repository:
+    ```bash
+    git clone https://github.com/your-username/speedtest-cli-data-logger.git
+    ```
+2.  Install the required Python packages:
+    ```bash
+    pip install -r requirements.txt
+    ```
+3.  Install the `speedtest` CLI tool. You can find instructions on the official Speedtest website: [https://www.speedtest.net/apps/cli](https://www.speedtest.net/apps/cli)
+
+## Usage
+
+```bash
+python -m speedtest --help
+```
+
+### Options
+
+*   `--template`: The template to use for formatting the output. Defaults to `json`.
+*   `--schema`: The JSON schema to use for validating the speedtest output. Defaults to `speedtest/schemas/schemaV1.json`.
+*   `--out`: The destination for the output. Defaults to `stdout`.
+*   `--loglevel`: The logging level. Defaults to `INFO`.
+
+### Examples
+
+*   Run a speedtest and print the JSON output to the console:
+    ```bash
+    python -m speedtest
+    ```
+*   Run a speedtest and save the output to a file named `speedtest.log`:
+    ```bash
+    python -m speedtest --out speedtest.log
+    ```
+*   Run a speedtest and format the output using the `influx` template:
+    ```bash
+    python -m speedtest --template influx
+    ```
