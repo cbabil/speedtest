@@ -10,11 +10,24 @@ This Python script runs a speedtest using the official `speedtest` CLI tool, val
     ```bash
     git clone https://github.com/your-username/speedtest-cli-data-logger.git
     ```
-2.  Install the required Python packages:
+2.  Create a virtual environment:
+    ```bash
+    python -m venv venv
+    ```
+3.  Activate the virtual environment:
+    *   **Windows:**
+        ```bash
+        venv\\Scripts\\activate
+        ```
+    *   **macOS and Linux:**
+        ```bash
+        source venv/bin/activate
+        ```
+4.  Install the required Python packages:
     ```bash
     pip install -r requirements.txt
     ```
-3.  Install the `speedtest` CLI tool. You can find instructions on the official Speedtest website: [https://www.speedtest.net/apps/cli](https://www.speedtest.net/apps/cli)
+5.  Install the `speedtest` CLI tool. You can find instructions on the official Speedtest website: [https://www.speedtest.net/apps/cli](https://www.speedtest.net/apps/cli)
 
 ## Usage
 
